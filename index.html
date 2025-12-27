@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Alina 💫</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hearts {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            pointer-events: none;
+        }
+
+        .heart {
+            font-size: 30px;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        .heart:nth-child(2) { animation-delay: 0.5s; }
+        .heart:nth-child(3) { animation-delay: 1s; }
+        .heart:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #764ba2;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .intro-screen, .quiz-screen, .result-screen {
+            display: none;
+        }
+
+        .intro-screen.active, .quiz-screen.active, .result-screen.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .intro-text {
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .start-btn, .option-btn, .restart-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .start-btn:hover, .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .question-box {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: white;
+            color: #667eea;
+            border: 3px solid #667eea;
+            padding: 15px 25px;
+            text-align: left;
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .option-btn.correct {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: white;
+            animation: pulse 0.5s ease;
+        }
+
+        .option-btn.wrong {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 3em;
+            color: #667eea;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .score-message {
+            text-align: center;
+            font-size: 1.5em;
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .final-message {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            line-height: 1.8;
+            color: #2d3436;
+            box-shadow: 0 5px 15px rgba(253, 203, 110, 0.4);
+        }
+
+        .final-message p {
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 20px;
+            color: #764ba2;
+            font-weight: 600;
+        }
+
+        .stars {
+            text-align: center;
+            font-size: 2em;
+            margin: 20px 0;
+        }
+
+        .unlock-message {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #667eea;
+            animation: slideInRight 0.5s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .feedback {
+            text-align: center;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .feedback.wrong {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .question-text {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts">
+            <span class="heart">💫</span>
+            <span class="heart">✨</span>
+            <span class="heart">💖</span>
+            <span class="heart">🌟</span>
+        </div>
+
+        <!-- Intro Screen -->
+        <div class="intro-screen active">
+            <h1>Hai Alina! 👋</h1>
+            <div class="subtitle">Game Spesial dari Raafi</div>
+            <div class="intro-text">
+                <p>Halo bestie! 🎮</p>
+                <p>Gue bikin game kecil-kecilan nih buat kamu. Isinya quiz sederhana tentang seberapa baik gue kenal kamu sebagai sahabat.</p>
+                <p>Jawab semua pertanyaan dengan jujur ya, dan di akhir ada surprise spesial buat kamu! 🎁</p>
+                <p><strong>Ready? Let's go!</strong></p>
+            </div>
+            <button class="start-btn" onclick="startQuiz()">Mulai Game! 🚀</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-screen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            
+            <div class="question-box">
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question-text" id="questionText"></div>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="options" id="optionsContainer"></div>
+
+            <div id="unlockContainer"></div>
+        </div>
+
+        <!-- Result Screen -->
+        <div class="result-screen">
+            <h1>Selesai! 🎉</h1>
+            <div class="score-display" id="finalScore"></div>
+            <div class="score-message" id="scoreMessage"></div>
+            <div class="stars" id="stars"></div>
+            
+            <div class="final-message" id="finalMessage"></div>
+            
+            <button class="restart-btn" onclick="restartQuiz()">Main Lagi! 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Menurutmu, apa yang paling Raafi suka lakukan di waktu luang?",
+                options: [
+                    "Nonton film/series sambil ngemil",
+                    "Main game atau scrolling social media",
+                    "Dengerin musik atau nyanyi-nyanyi",
+                    "Baca buku atau nulis diary"
+                ],
+                correct: 0,
+                unlock: "🎬 Gue tau banget kalau kamu suka banget nonton dan ngemil! Momen-momen ngobrolin film bareng kamu tuh seru banget."
+            },
+            {
+                question: "Kalau Raafi lagi bad mood, apa yang paling efektif buat ngeceriaain dia?",
+                options: [
+                    "Diajak jalan-jalan atau makan enak",
+                    "Dikasih space, biarkan sendiri dulu",
+                    "Diajak ngobrol dan dengerin curhatannya",
+                    "Dikirim meme lucu atau video kocak"
+                ],
+                correct: 2,
+                unlock: "💭 Gue selalu siap dengerin kamu kapanpun. Cerita kamu, keluh kesah kamu, itu penting buat gue sebagai sahabat."
+            },
+            {
+                question: "Apa hal kecil yang bisa bikin Raafi happy seketika?",
+                options: [
+                    "Dapat compliment atau pujian",
+                    "Makanan atau minuman favorit tiba-tiba",
+                    "Chat atau attention dari orang tersayang",
+                    "Lagu favorit tiba-tiba diputar"
+                ],
+                correct: 2,
+                unlock: "📱 Makanya gue usahain selalu ada buat kamu, walau cuma lewat chat. Kebahagiaan kamu penting buat gue!"
+            },
+            {
+                question: "Sebagai sahabat, apa yang paling Raafi hargai dari persahabatan?",
+                options: [
+                    "Kejujuran dan keterbukaan",
+                    "Loyalitas dan selalu ada saat dibutuhkan",
+                    "Bisa diajak ngobrol apa aja tanpa judge",
+                    "Saling support dan dukung"
+                ],
+                correct: 2,
+                unlock: "🤝 Dan gue berjanji, gue nggak akan pernah judge kamu. Apapun ceritamu, gue akan selalu dengerin dengan hati terbuka."
+            },
+            {
+                question: "Kalau Raafi punya superpower, kira-kira yang mana?",
+                options: [
+                    "Bisa baca pikiran orang",
+                    "Bisa teleport kemana aja",
+                    "Bisa putar waktu",
+                    "Bisa bikin semua orang bahagia"
+                ],
+                correct: 3,
+                unlock: "💖 Soalnya gue tau, kamu orangnya care dan pengen semua orang around you bahagia. That's what makes you special!"
+            },
+            {
+                question: "Apa yang Raafi paling takutin atau khawatirin?",
+                options: [
+                    "Kehilangan orang-orang terdekat",
+                    "Gagal atau mengecewakan orang lain",
+                    "Sendirian atau diabaikan",
+                    "Masa depan yang uncertain"
+                ],
+                correct: 0,
+                unlock: "🫂 Gue nggak mau jadi orang yang kamu takutin kehilangan. Gue akan tetap ada, sebagai sahabat yang bisa kamu andalkan."
+            },
+            {
+                question: "Terakhir, menurutmu kenapa Raafi bikin game ini buat Alina?",
+                options: [
+                    "Cuma iseng aja, buat fun",
+                    "Mau ngingetin betapa berharganya Alina",
+                    "Buat ngasih surprise dan bikin happy",
+                    "Karena Alina adalah sahabat terbaik"
+                ],
+                correct: 3,
+                unlock: "⭐ YES! Karena kamu adalah sahabat terbaik yang pernah gue punya. Dan gue pengen kamu tau itu."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let unlocked = [];
+
+        function startQuiz() {
+            document.querySelector('.intro-screen').classList.remove('active');
+            document.querySelector('.quiz-screen').classList.add('active');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('questionNumber').textContent = `Pertanyaan ${currentQuestion + 1} dari ${questions.length}`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('feedback').classList.remove('show');
+            document.getElementById('unlockContainer').innerHTML = '';
+        }
+
+        function selectAnswer(selected) {
+            const question = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback');
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (selected === question.correct) {
+                buttons[selected].classList.add('correct');
+                feedback.className = 'feedback correct show';
+                feedback.textContent = '🎉 Benar! ' + (selected === question.correct ? 'Kamu paham banget!' : '');
+                score++;
+                unlocked.push(question.unlock);
+                
+                setTimeout(() => {
+                    const unlockDiv = document.createElement('div');
+                    unlockDiv.className = 'unlock-message';
+                    unlockDiv.innerHTML = `<strong>💝 Pesan Terbuka:</strong><br>${question.unlock}`;
+                    document.getElementById('unlockContainer').appendChild(unlockDiv);
+                }, 1000);
+                
+                setTimeout(() => {
+                    nextQuestion();
+                }, 3500);
+            } else {
+                buttons[selected].classList.add('wrong');
+                buttons[question.correct].classList.add('correct');
+                feedback.className = 'feedback wrong show';
+                feedback.textContent = '💭 Hampir! Tapi gue tetep kenal kamu kok.';
+                
+                setTimeout(() => {
+                    nextQuestion();
+                }, 3000);
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.querySelector('.quiz-screen').classList.remove('active');
+            document.querySelector('.result-screen').classList.add('active');
+            
+            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+            
+            let stars = '';
+            if (score >= 6) stars = '⭐⭐⭐⭐⭐';
+            else if (score >= 4) stars = '⭐⭐⭐⭐';
+            else if (score >= 2) stars = '⭐⭐⭐';
+            else stars = '⭐⭐';
+            
+            document.getElementById('stars').textContent = stars;
+            
+            let message = '';
+            let finalText = '';
+            
+            if (score >= 6) {
+                message = 'Sempurna! Gue kenal kamu banget! 💯';
+                finalText = `
+                    <p><strong>Dear Alina,</strong></p>
+                    <p>Dari ${questions.length} pertanyaan, gue bener ${score}. Dan itu bukan kebetulan. Itu karena gue beneran perhatiin kamu, dengerin kamu, dan care sama kamu.</p>
+                    <p>Selama kita jadi sahabat, banyak banget momen yang bikin gue sadar: <strong>kamu itu spesial</strong>. Cara kamu peduli sama orang lain, cara kamu bikin orang around you happy, cara kamu jadi diri kamu sendiri tanpa pura-pura.</p>
+                    <p>Gue pengen kamu tau, bahwa <strong>persahabatan kita berharga banget buat gue</strong>. Kamu bukan cuma sahabat biasa, kamu adalah salah satu alasan kenapa hari-hari gue jadi lebih berwarna.</p>
+                    <p>Thank you udah jadi sahabat terbaik. Thank you udah percaya sama gue. Thank you udah jadi kamu yang sekarang.</p>
+                    <p><strong>You're amazing, Alina. And I'm lucky to have you as my best friend! 💖</strong></p>
+                    <p class="signature">- Raafi, sahabatmu yang always here for you 🌟</p>
+                `;
+            } else if (score >= 4) {
+                message = 'Great! Gue lumayan kenal kamu! 🎯';
+                finalText = `
+                    <p><strong>Dear ,</strong></p>
+                    <p>Okay, maybe gue nggak perfect dalam kenal kamu, tapi yang pasti gue tau satu hal: <strong>kamu adalah sahabat yang luar biasa</strong>.</p>
+                    <p>Setiap hari gue belajar lebih banyak tentang kamu. Dan setiap hal yang gue pelajari, bikin gue makin appreciate persahabatan kita.</p>
+                    <p>Gue pengen kamu tau, walaupun quiz ini cuma game, tapi <strong>perasaan gue sebagai sahabat kamu itu real</strong>. Gue care, gue peduli, dan gue always here for you.</p>
+                    <p>Thank you udah jadi bagian dari hidup gue. Thank you udah jadi sahabat yang bisa gue andalkan.</p>
+                    <p><strong>You mean a lot to me, Alina! 💙</strong></p>
+                    <p class="signature">- Raafi, your forever friend 🌈</p>
+                `;
+            } else {
+                message = 'Hmm, masih banyak yang harus gue pelajari! 😅';
+                finalText = `
+                    <p><strong>Dear Alina,</strong></p>
+                    <p>Okay, gue akuin gue mungkin belum kenal kamu sebaik yang gue pikir. But you know what? <strong>That's okay!</strong></p>
+                    <p>Karena friendship itu adalah journey. Dan gue pengen spend more time buat kenal kamu lebih dalam lagi.</p>
+                    <p>Yang penting buat gue adalah: <strong>kamu adalah sahabat yang berharga</strong>. Dan nggak ada quiz score yang bisa ngukur seberapa valuable nya kamu dalam hidup gue.</p>
+                    <p>Gue promise, gue akan jadi sahabat yang lebih baik. Yang lebih dengerin, yang lebih perhatian, dan yang always there for you.</p>
+                    <p><strong>Thanks for being my friend, Alina! 💚</strong></p>
+                    <p class="signature">- Raafi, learning to be a better friend every day 🌱</p>
+                `;
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+            document.getElementById('finalMessage').innerHTML = finalText;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            unlocked = [];
+            document.querySelector('.result-screen').classList.remove('active');
+            document.querySelector('.intro-screen').classList.add('active');
+        }
+    </script>
+</body>
+</html>
